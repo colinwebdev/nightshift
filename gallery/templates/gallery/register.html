@@ -1,0 +1,35 @@
+{% extends 'gallery/layout.html' %}
+{% block title %}Register{% endblock %}
+{% block body %}
+<main class="register">
+    <h2 class="gradient">Register</h2>
+    
+    <form action="{% url 'register' %}" method="post" class="register">
+        {% csrf_token %}
+        <div class="formStack">
+            <label for="username">Username</label>
+            <div class="rainbow"><input autofocus type="text" name="username" id="username"></div>
+        </div>
+        <div class="formStack">
+            <label for="email">Email</label>
+            <div class="rainbow"><input type="email" name="email" id="email"></div>
+        </div>
+        <div class="formStack">
+            <label for="password">Password</label>
+            <div class="rainbow"><input type="password" name="password" id="password"></div>
+        </div>
+        <div class="formStack">
+            <label for="confirmation">Confirm Password</label>
+            <div class="rainbow"><input type="password" name="confirmation" id="confirmation"></div>
+        </div>
+        <div class="formStack">
+            <div class="rainbow"><input type="submit" value="Register"></div>
+        </div>
+    </form>
+
+    Already have an account? <a href="{% url 'login' %}">Log In here.</a>
+</main>
+
+
+
+{% endblock %}

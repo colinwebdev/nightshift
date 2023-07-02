@@ -1,0 +1,28 @@
+{% extends "gallery/layout.html" %}
+{% load markdownify %}
+{% block title %}Tag - {{tagText}}{% endblock %}
+{% block body %}
+<aside class="categories"></aside>
+<main class="tagged">
+    <h1>Posts Tagged {{tagText}}</h1>
+    <div class="tagged">
+        {% for post in page %}
+        <div class="wrap">
+        {% if post.image %}
+        <a href="{% url 'post' post.id %}" class="imageLink"><div class="img"><img src='{{post.image}}'>
+        </div>
+        {% else %}
+        <a href="{% url 'post' post.id %}" title="{{post.title}}">
+        <div class="story">
+            <p>{{post.body|truncatechars:200|markdownify}}</p>
+        </div></a>
+        {% endif %}
+        <p class="postTitle"><a href="{% url 'post' post.id %}" title="View post {{post.title}}">{{post.title}}</a></p>
+        <p class="postUser">By <a href="{% url 'user' post.username %}" title="View profile of {{post.username}}">{{post.username}}</a></p></div>
+
+        {% endfor %}
+    </div>
+    
+</main>
+
+{% endblock %}

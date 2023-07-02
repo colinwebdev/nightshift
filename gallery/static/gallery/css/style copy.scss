@@ -1,0 +1,602 @@
+@use 'sass:math';
+@use 'sass:color';
+
+$purple: hsl(255, 15%, 46%);
+$midPurple: hsl(255, 16%, 35%);
+$darkPurple: hsl(255, 24%, 19%);
+$shadow: hsl(255, 26%, 13%);
+$black: hsl(255, 26%, 3%);;
+$grayish: #c4bac7;
+$links: #d893ed;
+$corner: 10px;
+$baseWidth: 1200px;
+$border: 1px solid $darkPurple;
+$pink: #ffa3ce;
+$yellow: #e6c182;
+$green: #9beaa8;
+$blue: #87b4eb;
+$indigo: #cd8df2;
+$gradient: 45deg, $green, $blue, $indigo, $pink, $yellow;
+
+@mixin darkTextShadow() {
+    filter: drop-shadow(2px 2px $shadow)
+        drop-shadow(2px 2px $shadow)
+        drop-shadow(2px 2px $shadow);
+}
+
+@mixin shadowLeft() {
+    box-shadow: 0 0 30px rgba($shadow, .75), inset -2px 2px 2px rgba($purple, .5);
+    border: $border;
+    border-left: none;
+    margin: 1rem 0 1rem -1rem;
+    border-radius: 0 $corner $corner 0;
+}
+
+@mixin shadowRight() {
+    box-shadow: 0 0 30px rgba($shadow, .5), inset 2px 2px 2px rgba($purple, .5);
+    border-right: none;
+    margin-right: -1rem;
+    border-radius: $corner 0 0 $corner;
+}
+
+@mixin shadowCenter() {
+    box-shadow: 0 0 5px rgba($shadow, .5), inset 0 2px 2px rgba($purple, .5);
+    border-radius: $corner;
+    border: $border;
+    background-color: rgba($purple, .25);
+}
+
+@mixin rainbowColorText() {
+    &:nth-of-type(5n + 1) {
+        color: $pink;
+    }
+    &:nth-of-type(5n + 2) {
+        color: $yellow;
+    }
+    &:nth-of-type(5n + 3) {
+        color: $green;
+    }
+    &:nth-of-type(5n + 4) {
+        color: $blue;
+    }
+    &:nth-of-type(5n + 5) {
+        color: $indigo;
+    }
+}
+
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    line-height: 1.2;
+}
+
+body {
+    background-color: $darkPurple;
+    background-image: linear-gradient(rgba($purple, .5) 0%, $darkPurple 80%);
+    background-repeat: no-repeat;
+    min-height: 100vh;
+    background-size: 100%;
+    font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    padding: 0 1rem;
+    color: $grayish;
+}
+
+a {
+    color:$links;
+    text-decoration: none;
+}
+
+h1, h2 {
+    font-size: 3.5rem;
+    text-transform: uppercase;
+    color: $grayish;
+    @include darkTextShadow();
+    
+    &.gradient {
+        background-color: $grayish;
+        background-image: linear-gradient($gradient);
+        background-size: 100%;
+        background-clip: text;
+        -webkit-background-clip: text;
+        -moz-background-clip: text;
+        -webkit-text-fill-color: transparent; 
+        -moz-text-fill-color: transparent;
+    }
+}
+
+header {
+    .logo {
+        height: 10rem;
+        max-width: $baseWidth;
+        margin: 0 auto;
+        color: $grayish;
+        font-size: 2rem;
+        font-weight: bold;
+        display: flex;
+        align-items: end;
+        h1 {
+            padding-bottom: 1rem;
+            font-size: 4.5rem;
+            &:hover {
+                mix-blend-mode: hard-light;
+
+            }
+            }
+        }
+    }
+nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: sticky;
+        top: -2px;
+        background-color: rgba($midPurple, .25);
+        backdrop-filter: blur(10px);
+        z-index: 10;
+        transition: all .25s ease-in-out;
+        @include shadowRight();
+        .views {
+            padding: 1rem 2rem;
+        }
+        .userStuff {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding-right: 2rem;
+            .post {
+                background-color: $darkPurple;
+                padding: 1rem;
+                margin-right: 1rem;
+            }
+            .rainbow {
+                background: linear-gradient($gradient);
+                border-radius: $corner;
+                box-shadow: 2px 2px $shadow, 4px 4px $shadow;
+                &:hover {
+                    mix-blend-mode: hard-light;
+                }
+                &:active {
+                    box-shadow: none;
+                }
+            }
+            .userMenu {
+                position: relative;
+                min-width: 275px;
+                height: 25px;
+                padding-top: 10px;
+                text-align: right;
+                z-index: 1;
+                display: flex;
+                gap: 3rem;
+                .notif, .inbox {
+                    font-size: 1.5rem;
+                    display: block;
+                    margin-top: -.3rem;
+                    display: grid;
+                    position: relative;
+                    i {
+                        grid-column: 1;
+                        grid-row: 1;
+                    }
+                    .markerWrap {
+                        background: linear-gradient($gradient);
+                        border-radius: 25px;
+                        grid-column: 1;
+                        grid-row: 1;
+                        position: absolute;
+                        top: -15px;
+                        left: 10px;
+                        font-size: 14px;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        .marker {
+                            background-color: $darkPurple;
+                            border-radius: 25px;
+                            padding: 5px 7px;
+                            height: 28px;
+                            min-width: 28px;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            margin: 1px;
+                        }
+                    }
+                }
+                .arrow {
+                    margin-left: auto;
+                    transition: all .25s ease-in-out;
+                }
+            }
+            .navatar {
+                position: absolute;
+                background: linear-gradient($gradient);
+                top: -45px;
+                right: 2rem;
+                border-radius: $corner;
+                height: 102px;
+                width: 102px;
+                box-shadow: 0 0 10px rgba($shadow, .75);
+                transition: all .25s ease-in-out;
+                div {
+                    width: 100px;
+                    height: 100px;
+                    border-radius: $corner;
+                    margin: 1px;
+                    background-color: $midPurple;
+                    img {
+                        max-width: 100px;
+                        max-height: 100px;
+                    }
+                }
+            }
+            .top {
+                top: -8px;
+            }
+
+            
+            a.button {
+                margin: 1px;
+                border-radius: $corner;
+                display: block;
+                padding: .5rem 1rem;
+                color: $grayish;
+                background-color: $darkPurple;
+                text-transform: uppercase;
+                transition: all .25s ease-in-out;
+                &:hover {
+                    margin: 2px;
+                    padding: calc(.5rem - 1px) calc(1rem - 1px);
+                }
+                &:active{
+                    background-color: rgba($midPurple, .25)
+                }
+            }
+    }
+    &.navTop {
+        box-shadow: 0 0 10px rgba($shadow, .5);
+        border-right: none;
+        border-left: none;
+        margin-right: -1rem;
+        margin-left: -1rem;
+        border-radius: 0;
+    }
+}
+
+.postMenu {
+    position: relative;
+}
+
+.navDropdown {
+    top: 30px;
+    right: 0;
+}
+
+.postDropdown {
+    top: 45px;
+    left: -5px;
+}
+
+.navDropdown, .postDropdown {
+    position: absolute;
+    z-index: 5;
+    min-width: 200px;
+    box-shadow: 0 0 25px $shadow;
+    transition: all .5s ease-in-out;
+    .rainbowBox {
+        background: linear-gradient($gradient);
+        border-radius: $corner;
+        padding: 1px;
+    }
+    ul {
+        background-color: $purple;
+        border-radius: $corner;
+        list-style-type: none;
+        color: $grayish;
+        overflow: hidden;
+        text-align: left;
+        li {
+            background-color: $midPurple;
+            &:hover {
+                mix-blend-mode: hard-light;
+            }
+                a {
+                    display: block;
+                    padding: .5rem .75rem;
+                }
+            &:not(:last-of-type) a{
+                border-bottom: 1px solid $grayish;
+                border-image: repeating-linear-gradient($gradient, $pink 300px) 1;
+            }
+            &:nth-of-type(5n + 1) a{
+                background-color: rgba($pink, .1);
+                color: color.adjust($pink, $lightness: +5%);
+            }
+            &:nth-of-type(5n + 2) a{
+                background-color: rgba($yellow, .1);
+                color: color.adjust($yellow, $lightness: +10%);
+            }
+            &:nth-of-type(5n + 3) a{
+                background-color: rgba($green, .1);
+                color: color.adjust($green, $lightness: +15%);
+            }
+            &:nth-of-type(5n + 4) a{
+                background-color: rgba($blue, .1);
+                color: color.adjust($blue, $lightness: +10%);
+            }
+            &:nth-of-type(5n + 5) a{
+                background-color: rgba($indigo, .1);
+                color: color.adjust($indigo, $lightness: +10%);
+            }
+        }
+    }
+}
+
+.container {
+    @include shadowLeft();
+    min-height: 50vh;
+    background-color: rgba($darkPurple, .1);
+    display: flex;
+    overflow: hidden;
+    aside {
+        min-width: 200px;
+        background-color: rgba($purple, .25);
+        border: 0px solid $black;
+        border-image: repeating-linear-gradient($gradient, $pink 300px) 1;
+        p {
+            border: 1px solid $darkPurple;
+            background-color: $darkPurple;
+            padding: .5rem 1rem;
+        }
+        &.categories {
+            border-right-width: 1px;
+            p {
+                box-shadow: 0 0 10px rgba($shadow, .75), inset -2px 2px 2px rgba($purple, .5);
+                margin: .5rem .5rem 0 0;
+                border-radius: 0 $corner $corner 0;
+            }
+        }
+        &.blogs {
+            border-left-width: 1px;
+            p {
+                box-shadow: 0 0 10px rgba($shadow, .75), inset 2px 2px 2px rgba($purple, .5);
+                margin: .5rem 0 0 .5rem;
+                border-radius: $corner 0 0 $corner;
+            }
+        }
+        ul {
+            list-style-type: none;
+            margin-bottom: 1.5rem;
+            li {
+                padding: .5rem 1rem;
+                &:nth-of-type(2n) {
+                    background-color: rgba($darkPurple, .15);
+                }
+                @include rainbowColorText();
+            }
+        }
+    }
+    main {
+        display: flex;
+        padding: 1rem;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+        align-items: center;
+        &.register, &.login, &.post {
+            flex-direction: column;
+            justify-content: flex-start;
+            margin: 0 auto;
+        }
+        &.profile {
+            flex-direction: column;
+            align-items: stretch;
+            justify-content: start;
+            width: 100%;
+            padding-top: calc(1rem + 50px);
+            gap: 1rem;
+            .bio {
+                min-height: 20rem;
+                @include shadowCenter();
+                background-color: transparent;
+                position: relative;
+                display: flex;
+                padding: 1rem;
+                .left, .bioText, .stats {
+                    padding: 1rem;
+                }
+                .left, .bioText {
+                    border-right: 1px solid $darkPurple;
+                    border-image: linear-gradient($gradient) 1;
+                }
+                .left {
+                    min-width: 250px;
+                    h2 {
+                        text-align: center;
+                    }
+                    .ava {
+                        width: 150px;
+                        height: 150px;
+                        @include shadowCenter();
+                        margin: 0 auto;
+                        margin-top: calc(-1rem - 50px);
+                    }
+                }
+                .bioText {
+                    flex-grow: 1;
+                }
+                .stats {
+                    min-width: 200px;
+                }
+            }
+            .postWrap {
+                display: flex;
+                flex-direction: row;
+                gap: 1rem;
+                .gallery, .blog, .writing {
+                    min-height: 20rem;
+                    @include shadowCenter();
+                    background-color: transparent;
+                    .header {                        
+                        padding: .5rem 1rem;
+                        background-color: $darkPurple;
+                    }
+                }
+                .posts {
+                    flex-grow: 1;
+                }
+                .gallery, .writing {
+                    .header {
+                        border-radius: 0 $corner $corner 0;
+                        margin: 1rem .5rem 0 0;
+                        box-shadow: 0 0 10px rgba($shadow, .75), inset -2px 2px 2px rgba($purple, .5);
+                    }
+                }
+                .blog {
+                    min-width: 500px;
+                    .header {
+                        border-radius: $corner 0 0 $corner;
+                        margin: 1rem 0 0 .5rem;
+                        box-shadow: 0 0 10px rgba($shadow, .75), inset 2px 2px 2px rgba($purple, .5);
+                    }
+                }
+            }
+        }
+        .wrap {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-radius: $corner;
+            background-color: rgba($shadow, .25);
+            padding-bottom: .75rem;
+            margin: 1rem .5rem;
+            position: relative;
+            div {
+                width: 200px;
+                height: 300px;
+                margin-bottom: .5rem;
+                @include shadowCenter();
+            }
+            &:nth-of-type(2n) {
+                div {
+                    height: 200px;
+                }
+            }
+            &:nth-of-type(3n) {
+                div {
+                    width: 150px;
+                }
+            }
+            @include rainbowColorText();
+        }
+    }
+}
+
+form {
+    .formStack {
+        display: flex;
+        flex-direction: column;
+        font-size: 1rem;
+        padding-bottom: .5rem;
+        justify-content: stretch;
+        @include rainbowColorText();
+    }
+    .rainbow {
+        background: linear-gradient($gradient);
+        border-radius: $corner;
+        width: fit-content;
+        align-self: flex-end;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    input, textarea {
+        width: 20rem;
+        padding: .5rem;
+        margin: 1px;
+        background-color: $grayish;
+        outline: none;
+        border-radius: $corner;
+        color: $black;
+        border: 1px solid $purple;
+        &:focus {
+            margin: 2px;
+            padding: calc(.5rem - 1px);
+        }
+        &[type=submit] {
+            width: fit-content;
+            padding: .5rem 1rem;
+            &:hover {
+                background-color: rgba($grayish, .5);
+                filter: blur();
+                border-color: transparent;
+            }
+        }
+    }
+}
+
+form.post {
+    display: flex;
+    gap: 1rem;
+    width: $baseWidth;
+    .rainbow {
+        width: 100%;
+        input, textarea {
+            flex-grow: 1;
+            resize: vertical;
+            &#body {
+                min-height: 20rem;
+                
+            }
+            &#tags {
+                min-height: 5rem;
+            }
+        }
+    }
+    .formLeft {
+        flex-grow: 1;
+        min-width: 50%;
+    }
+}
+
+footer {
+    min-height: 20rem;
+    @include shadowRight();
+    background-color: $shadow;
+    margin-bottom: 2rem;
+    display: flex;
+    padding: 1rem;
+    div {
+        flex-grow: 1;
+        min-height: 100%;
+        &:not(:last-of-type) {
+            border-right: 1px solid $purple;
+            border-image: repeating-linear-gradient($gradient, $pink 200px) 1;
+        }
+    }
+}
+
+.rotate180 {
+    transform: rotate(180deg);
+}
+
+.hide {
+    display: none;
+}
+
+body {
+    &::-webkit-scrollbar {
+        width: 1rem;
+    }
+    &::-webkit-scrollbar-track {
+        background-color: $shadow;
+    }
+    &::-webkit-scrollbar-thumb {
+        background-color: $midPurple;
+        background: repeating-linear-gradient($gradient, $pink 200px);
+        border-left: calc((1rem/2) - 1px) solid $shadow;
+        border-right: calc(1rem/2) solid $shadow;
+    }
+}

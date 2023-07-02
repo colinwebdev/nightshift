@@ -1,0 +1,176 @@
+{% extends 'gallery/layout.html' %}
+{% load markdownify %}
+{% block title %}{% endblock %}
+{% block body %}
+<main class="profile">
+
+{% include 'gallery/profileHead.html' %}
+<div class="postWrap">
+    <div class="posts">
+        <div class="gallery">
+            <div class="header"><a href="{% url 'userGallery' profileData.profile.username %}">Gallery</a></div>
+            <div class="postsContain">
+                {% if profileData.images|length == 0 %}
+                    <p class="noPosts">This user has no image posts</p>
+                {% endif %}
+                {% for post in profileData.images %}
+                <div class="wrap">
+                {% if post.image %}
+                <a href="{% url 'post' post.id %}" class="imageLink" title="Post titled {{post.title}}"><div class="img"><img src='{{post.image}}' alt="{{post.title}}">
+                </div>
+                {% else %}
+                <a href="{% url 'post' post.id %}" title="{{post.title}}">
+                <div class="story">
+                    <p>{{post.body|truncatechars:200|markdownify}}</p>
+                </div></a>
+                {% endif %}
+                </a>
+                <p><a href="{% url 'post' post.id %}" title="View post {{post.title}}">{{post.title}}</a></p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="writing">
+            <div class="header"><a href="{% url 'userWriting' profileData.profile.username %}">Writing</a></div>   
+            <div class="postsContain">
+                {% if profileData.writing|length == 0 %}
+                    <p class="noPosts">This user has no writing posts</p>
+                {% endif %}
+                {% for post in profileData.writing %}
+                <div class="wrap">
+                <a href="{% url 'post' post.id %}" title="{{post.title}}">
+                <div class="story">
+                    <p>{{post.body|truncatechars:200|markdownify}}</p>
+                </div></a>
+                </a>
+                <p><a href="{% url 'post' post.id %}" title="View post {{post.title}}">{{post.title}}</a></p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="likes">
+            <div class="header"><a href="{% url 'userLikes' profileData.profile.username %}">Likes</a></div>   
+            <div class="postsContain">
+                {% if profileData.likes|length == 0 %}
+                    <p class="noPosts">This user has no liked posts</p>
+                {% endif %}
+                {% for post in profileData.likes %}
+                <div class="wrap">
+                    {% if post.image %}
+                    <a href="{% url 'post' post.id %}" class="imageLink" title="Post titled {{post.title}}"><div class="img"><img src='{{post.image}}' alt="Image by {{post.username}}">
+                    </div>
+                    {% else %}
+                    <a href="{% url 'post' post.id %}" title="{{post.title}}">
+                    <div class="story">
+                        <p>{{post.body|truncatechars:200|markdownify}}</p>
+                    </div></a>
+                    {% endif %}
+                    </a>
+                    <p><a href="{% url 'post' post.id %}" title="View post {{post.title}}">{{post.title}}</a></p>
+                    <p>By <a href="{% url 'user' post.username %}" title="View profile of {{post.username}}">{{post.username}}</a></p></div>
+                    {% endfor %}
+            </div>
+        </div>
+        <div class="followBox">
+            <div class="followBoxInner">
+                <div class="header"><a href="{% url 'userFollowing' profileData.profile.username %}">Following</a></div>   
+                <div class="isfollowing">
+                    {% for follow in profileData.isFollowing %}
+                    <div class="followWrap">
+                        <a href="{% url 'user' follow.followTarget.username %}">
+                            <div class="followAva">
+                                {% if follow.followTarget.avatar %}
+                                <img src="{{follow.followTarget.avatar.url}}" alt="{{follow.followTarget.username}}">
+                                {% endif %}
+                            </div>
+                            <p>{{follow.followTarget.username}}</p>
+                        </a>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="followBoxInner">
+                <div class="headerRight"><a href="{% url 'userFollowers' profileData.profile.username %}">Followed By</a></div>   
+                <div class="isfollowing">
+                    {% for follow in profileData.isFollowedBy %}
+                        <div class="followWrap">
+                            <a href="{% url 'user' follow.followSource.username %}">
+                                <div class="followAva">
+                                    {% if follow.followSource.avatar %}
+                                    <img src="{{follow.followSource.avatar.url}}" alt="{{follow.followSource.username}}">
+                                    {% endif %}
+                                </div>
+                                <p>{{follow.followSource.username}}</p>
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="profileRight">
+        <div class="blog">
+            <div class="header"><a href="{% url 'userBlogs' profileData.profile.username %}">Blog</a></div>
+            {% if profileData.blogs|length == 0 %}
+                <p class="noPosts">This user has no blog posts</p>
+            {% endif %}
+            <ul>
+                {% for post in profileData.blogs %}
+                <li>
+                    <p><a href="{% url 'post' post.id %}">{{post.title}}</a></p>
+                    <p>{{post.body|truncatechars:200|markdownify}}</p>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="profileComments">
+            {% if user.is_authenticated %}
+                <form class="comment" action="{% url 'user' profileData.profile.username %}" method="post" >
+                    {% csrf_token %}
+                    <div class="rowWrap">
+                        <div class="userAva">
+                            {% if user.avatar %}
+                            <img src="{{user.avatar.url}}">
+                            {% endif %}
+                        </div>
+                        <div class="formStack">
+                            <label for="comment">Comment</label>
+                            <div class="rainbow"><textarea id="comment" name="comment"></textarea></div>
+                            <p>Supports markdown</p>
+                        </div>
+                    </div>
+                    <div class="formStack">
+                        <div class="rainbow submit"><input type='submit' value='Post'></textarea></div>
+                    </div>
+                </form>
+                {% endif %}
+                <ul class="comments">
+                    {% for comment in profileData.comments %}
+                    <li><div class="commentAva">
+                        {% if comment.commenter.avatar %}
+                            <img src="{{comment.commenter.avatar.url}}">
+                            {% endif %}
+                    </div><div class="commentWrap">
+                        <div class="commentTitle"><p><strong>{{comment.commenter.username}}</strong> on {{comment.dateAdded|date:"F dS Y"}} at {{comment.dateAdded|date:"H:iA T"}}</p>
+                            {% if user.is_authenticated and profileData.profile.id == user.id %}
+                                <div class="commentControls"><a href="{% url 'deleteComment' comment.id %}"><i class="fa-solid fa-trash"></i></a></div>
+                            {% elif user.is_authenticated and comment.commenter.id == user.id %}
+                                <div class="commentControls"><a href="{% url 'deleteComment' comment.id %}"><i class="fa-solid fa-trash"></i></a></div>
+                            {% endif %}
+                        </div>
+                            <div class="commentText">{{comment.text|markdownify}}</div>
+                    </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+
+        </div>
+    </div>
+</div>
+
+</main>
+
+
+
+{% endblock %}

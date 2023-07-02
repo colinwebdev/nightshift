@@ -1,0 +1,56 @@
+{% load markdownify %}
+<footer>
+    <div class="random">
+        {% for item in popular %}
+        <div class="imgWrap">
+            <a href="{% url 'post' item.id %}">{% if item.image %}
+            <img src="{{item.image.url}}">
+            {% else %}
+            <div class="text">{{item.postBody|truncatechars:200|markdownify}}</div>
+            {% endif %}</a>
+        </div>
+        
+        {% endfor %}
+    </div>
+    <div class="footerCols">
+        <div><h4>About This Project</h4>
+        <p>
+            This project was created as the final project in Harvard's CS50W (online version). It was heavily inspired by gallery sites of the 00's and 10's, such as DeviantArt and Elfwood. I wanted to bring the more comment and interaction focused interface into a more modern design concept. 
+        </p>
+        <p>
+            Features include the ability to post singular image posts, prose posts, and blog posts, the ability to comment on and favorite posts of any kind, and the ability to follow other users. Comments can also be left on profiles. Profiles include avatars that appear across the site, custom titles, and a space for a longer bio. All large text fields (bios, comments, text sections of posts) allow for the use of the use of markdown for formatting.
+        </p>
+        <p>
+            The backend is built using Django with Python and SQLite. The frontend is built with just HTML (and Django's template language), a little JavaScript and whole lot of SASS.
+        </p>
+        <p>
+            If this site were to ever open to real users, there would be an algorithm implemented that would be a little different than what's typically found on other sites. It would encourage users to take their time in posting, by increasing visibility to posts after an absence of posting for more than a day. It would also focus more on comments and favorites <em>given</em> rather than interactions received. Algorithms should favor factors that users <em>can</em> control, and not punish users for things that are beyond their control. 
+        </p>
+        
+        </div>
+        <div><h4>About CS50W</h4>
+        <p>
+            CS50W is a program offered by Harvard for free through their OpenCourseWare program and EdX. A great educational opportunity if you have the drive to make it through 8 full units of self paced online learning. 
+        </p>
+        <p>
+            Read more on their <a href="https://cs50.harvard.edu/web/2020/" title="CS50W Official Site">official site</a> or sign up at <a href="https://learning.edx.org/course/course-v1:HarvardX+CS50W+Web/home" title="CS50W on EdX">EdX</a>
+        </p>
+        </div>
+        <div><h4>About The Creator</h4>
+        <p>
+            My name is Colin, and I live just outside Portland, OR. I recently completed my first (2 year) degree at Clark College. I could not have gotten this far, nor would I have even known about Harvard's free classes, if not for Bruce Elgort. He taught me nearly everything I know about programming. 
+        </p>
+        <p>
+            I began learning how to make websites way back in 1996. Back when we barely even had CSS to work with and JavaScript wasn't the powerhouse it is today. However, I didn't start learning it seriously until 2021. Since then I've taken to it like a duck to water. I've already started expanding beyond web development, into everything I can reach. That includes video game development, machine learning, and app development.
+        </p>
+        <p>
+            Outside of programming, I'm an artist (hence my interest in gallery type sites). I was a professional artist for nearly 20 years, coloring comics and drawing illustrations. I hope to one day combine both passions into making a video game of a story that was once a comic. 
+        </p>
+        <div class="icons">
+            <a href="https://twitter.com/colinwebdev" title="Twitter"><i class="fa-brands fa-twitter"></i></a>
+            <a href="https://www.linkedin.com/in/colin-moore-1171235a/" title="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+            <a href="https://github.com/colinwebdev" title="GitHub"><i class="fa-brands fa-github"></i></a>
+        </div>
+        </div>
+    </div>
+</footer>

@@ -1,0 +1,43 @@
+{% extends 'gallery/layout.html' %}
+{% block title %}New {{postType|capfirst}} post{% endblock %}
+{% block body %}
+<main class="newPost">
+    <h2>{{postType|capfirst}} Post</h2>
+    {% if postType == 'image' or postType == 'writing' or postType == 'blog' %}
+        <form action="{% url 'newpost' postType %}" method="post" class="post"  enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="formStack">
+                    <label for="title">Title</label>
+                    <div class="rainbow">{{form.title}}</div>
+                </div>
+                {% if postType == 'image' %}
+                <div class="formStack">
+                    <label for="file" class="srOnly">File</label>
+                    <div class="rainbow">
+                        {{form.image}}
+                    </div>
+                </div>
+                {% endif %}
+                <div class="formStack">
+                    <label for="body">Body</label>
+                    <div class="rainbow">{{form.body}}</textarea></div>
+                    <p>Supports markdown</p>
+                </div>
+                <div class="formStack">
+                    <label for="tags">Tags</label>
+                    <div class="rainbow">{{form.tags}}</div>
+                    <p>Separate each tag with a comma</p>
+                </div>
+                <div class="formStack">
+                    <div class="rainbow submit"><input type='submit' value='Post'></textarea></div>
+                </div>
+
+        </form>
+    {% else %}
+    <h2>Post Type Not Found</h2>
+    <p>Cannot find a post type matching your request. Please check your URL.</p>
+    {% endif %}
+
+</main>
+
+{% endblock %}

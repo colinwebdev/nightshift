@@ -1,0 +1,45 @@
+{% extends 'gallery/layout.html' %}
+{% load markdownify %}
+{% block title %}{% endblock %}
+{% block body %}
+<main class="newPost">
+    <h2>Edit Profile</h2>
+    <form action="{% url 'editUser' user.username %}" method="post" class="post"  enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="formStack">
+            <label for="username">Username</label>
+            <div class="rainbow">{{form.username}}</div>
+        </div>
+        <div class="avatarRow">
+            <div class="avatar">
+                {% if profile.avatar %}
+                <img src="{{profile.avatar.url}}">
+                {% else %}
+                <p>No avatar uploaded</p>
+                {% endif %}
+            </div>
+            <div class="formStack">
+                <label for="avatar">Upload a new avatar</label>
+                <div class="rainbow">
+                    {{form.avatar}}
+                </div>
+            </div>
+        </div>
+        <div class="formStack">
+            <label for="pronouns">Pronouns</label>
+            <div class="rainbow">{{form.pronouns}}</div>
+        </div>
+        <div class="formStack">
+            <label for="title">Custom Title</label>
+            <div class="rainbow">{{form.title}}</div>
+        </div>
+        <div class="formStack">
+            <label for="bio">Bio</label>
+            <div class="rainbow">{{form.bio}}</div>
+        </div>
+        <div class="formStack">
+            <div class="rainbow submit"><input type='submit' value='Update'></textarea></div>
+        </div>
+    </form>
+</main>
+{% endblock %}

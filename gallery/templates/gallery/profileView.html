@@ -1,0 +1,75 @@
+{% extends 'gallery/layout.html' %}
+{% load markdownify %}
+{% block title %}{% endblock %}
+{% block body %}
+<main class="profile">
+
+{% include 'gallery/profileHead.html' %}
+
+{% if profileData.view == 'posts' %}
+<div class="postWrap">
+    <div class="posts">
+<div class="gallery">
+    <div class="header">{{profileData.header}}</div>
+    <div class="postsContain">
+        {% if profileData.page|length == 0 %}
+            <p class="noPosts">This user has no posts</p>
+        {% endif %}
+        {% for post in profileData.page %}
+        <div class="wrap">
+        {% if post.image %}
+        <a href="{% url 'post' post.id %}" class="imageLink" title="Post titled {{post.title}}"><div class="img"><img src='{{post.image}}' alt="{{post.title}}">
+        </div>
+        {% else %}
+        <a href="{% url 'post' post.id %}" title="{{post.title}}">
+        <div class="story">
+            <p>{{post.body|truncatechars:200|markdownify}}</p>
+        </div></a>
+        {% endif %}
+        </a>
+        <p><a href="{% url 'post' post.id %}" title="View post {{post.title}}">{{post.title}}</a></p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+</div>
+</div>
+{% elif profileData.view == 'users' %}
+<div class="followBoxInner full">
+    <div class="header">{{profileData.header}}</div>   
+            <div class="isfollowing">
+                {% for follow in profileData.isFollowing %}
+                <div class="followWrap">
+                    {% if profileData.header == 'Following' %}
+                        <a href="{% url 'user' follow.followTarget.username %}">
+                            <div class="followAva">
+                                {% if follow.followTarget.avatar %}
+                                <img src="{{follow.followTarget.avatar.url}}" alt="{{follow.followSource.username}}">
+                                {% endif %}
+                            </div>
+                            <p>{{follow.followTarget.username}}</p>
+                        </a>
+                    {% else %}
+                    <a href="{% url 'user' follow.followSource.username %}">
+                        <div class="followAva">
+                            {% if follow.followSource.avatar %}
+                            <img src="{{follow.followSource.avatar.url}}" alt="{{follow.followSource.username}}">
+                            {% endif %}
+                        </div>
+                        <p>{{follow.followSource.username}}</p>
+                    </a>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% else %}
+View can't be found
+{% endif %}
+{% include 'gallery/pagination.html' %}
+</main>
+
+
+
+{% endblock %}

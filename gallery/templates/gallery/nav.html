@@ -1,0 +1,65 @@
+<nav>
+    <div class="views"></div>
+    <div class="userStuff">
+    {% if not user.is_authenticated %}
+        <div class="rainbow"><a href='{% url "login" %}' class="button">Login</a></div>
+        <div class="rainbow"><a href='{% url "register" %}' class="button">Register</a></div>
+    {% else %}
+        <div class="postMenu">
+            <div class="post">Make a Post</div>
+            <div class="postDropdown hide">
+                <div class="rainbowBox">
+                    <ul>
+                        <li>
+                            <a href="{% url 'newpost' 'image' %}">Image</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'newpost' 'writing' %}">Writing</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'newpost' 'blog' %}">Blog</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="userMenu">
+            <div class="navatar">
+                <div>
+                    {% if user.avatar%}
+                    <img src="{{user.avatar.url}}">
+                    {% endif %}
+                </div>
+            </div>
+            <div class="navDropdown hide">
+                <div class="rainbowBox">
+                    <ul>
+                        <li>
+                            <a href="{% url 'user' user %}">
+                                Profile
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{% url 'logout' %}">
+                                Logout
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{% url 'userLikes' user %}">
+                                Likes
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{% url 'userFollowing' user %}">
+                                Following
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <i class="fa-solid fa-caret-down arrow"></i>
+        </div> <!-- User Menu -->
+    <!-- <div class="rainbow shift"><a href='{% url "logout" %}'>Logout</a></a></div> -->
+    {% endif %}
+</div>
+</nav>

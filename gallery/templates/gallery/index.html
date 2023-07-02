@@ -1,0 +1,24 @@
+{% extends "gallery/layout.html" %}
+{% load markdownify %}
+{% block title %}Home{% endblock %}
+{% block body %}
+<aside class="categories"></aside>
+<main class="frontPage">
+    <div class="frontPagePosts">
+        {% for post in page %}
+        <div class="wrap">{% if post.image %}<a href="{% url 'post' post.id %}" class="imageLink" title="Post titled {{post.title}}"><div class="img"><img src='{{post.image}}' alt="Image by {{post.username}}"></div>
+        {% else %}
+        <a href="{% url 'post' post.id %}" title="{{post.title}}">
+        <div class="story">
+            <p>{{post.body|truncatechars:200|markdownify}}</p>
+        </div></a>
+        {% endif %}
+        </a>
+        <p class="postTitle"><a href="{% url 'post' post.id %}" title="View post {{post.title}}">{{post.title}}</a></p>
+        <p class="postUser">By <a href="{% url 'user' post.username %}" title="View profile of {{post.username}}">{{post.username}}</a></p></div>
+        {% endfor %}
+    </div>
+    {% include 'gallery/pagination.html' %}
+</main>
+{% include 'gallery/asideBlogs.html' %}
+{% endblock %}

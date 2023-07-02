@@ -1,0 +1,26 @@
+{% extends "gallery/layout.html" %}
+{% block title %}Login{% endblock %}
+{% block body %}
+
+<main class="login">
+    <h2 class="rainbow">Login</h2>
+    
+    <form action="{% url 'login' %}" method="post">
+        {% csrf_token %}
+        <div class="formStack">
+            <label for="username">Username</label>
+            <div class="rainbow"><input autofocus type="text" name="username" id="username"></div>
+        </div>
+        <div class="formStack">
+            <label for="password">Confirm Password</label>
+            <div class="rainbow"><input type="password" name="password" id="password"></div>
+        </div>
+        <div class="formStack">
+            <div class="rainbow"><input type="submit" value="Login"></div>
+        </div>
+    </form>
+    
+    Don't have an account? <a href="{% url 'register' %}">Register here.</a>
+</main>
+
+{% endblock %}

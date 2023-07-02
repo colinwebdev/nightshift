@@ -1,0 +1,51 @@
+<div class="bio">
+    <div class="left">
+        {% if profileData.profile.avatar %}
+        <div class="ava">
+            <img src="{{profileData.profile.avatar.url}}">
+        </div>
+        {% endif %}
+        
+        <div class="name">
+            <h2>{{profileData.profile.username}}</h2>
+            {% if profileData.profile.title != None %}
+            <p><i class="fa-solid fa-quote-left"></i> {{profileData.profile.title}} <i class="fa-solid fa-quote-right"></i></p>
+            {% endif %}
+            <p><strong>Pronouns:</strong> 
+                {% if profileData.profile.pronouns == None %}
+                    No pronouns set
+                {% else %}
+                {{profileData.profile.pronouns}}</p>
+                {% endif %}
+        </div>
+        {% if user.is_authenticated and profileData.profile.id != user.id %}
+            {% if profileData.isFollowingUser %}
+                <div class="unfollowUser"><a href="" onclick="unfollow('{{user.id}}', '{{profileData.profile.username}}')">Unfollow</a></div>
+            {% else %}
+                <div class="followUser"><a href="" onclick="follow('{{user.id}}', '{{profileData.profile.username}}')">Follow</a></div>
+            {% endif %}
+        {% endif %}
+        {% if user.is_authenticated and profileData.profile.id == user.id %}
+        <div class="editUser"><a href="{% url 'editUser' profileData.profile.username %}"><i class="fa-regular fa-pen-to-square"></i> Edit Profile</a></div>
+        {% endif %}
+        
+    </div>
+    <div class="bioText">
+        {% if profileData.profile.bio != None %}
+        {{profileData.profile.bio}}
+        {% endif %}
+    </div>
+    <div class="stats">
+        
+    </div>
+    </div>
+    <div class="profileTabs">
+        <a href="{% url 'user' profileData.profile.username %}">Profile</a> 
+        <a href="{% url 'userGallery' profileData.profile.username %}">Gallery</a> 
+        <a href="{% url 'userWriting' profileData.profile.username %}">Writing</a> 
+        <a href="{% url 'userBlogs' profileData.profile.username %}">Blogs</a> 
+        <a href="{% url 'userLikes' profileData.profile.username %}">Likes</a> 
+        <a href="{% url 'userFollowing' profileData.profile.username %}">Following</a> 
+        <a href="{% url 'userFollowers' profileData.profile.username %}">Followers</a> 
+        
+    </div>

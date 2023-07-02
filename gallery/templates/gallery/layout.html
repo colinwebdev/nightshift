@@ -1,0 +1,30 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/375d969cd5.js" crossorigin="anonymous"></script>
+    <link href="{% static 'gallery/css/style.css' %}" rel="stylesheet">
+    <title>{% block title %}{% endblock %} | NightShift</title>
+</head>
+<body>
+    <header>
+        <div class="logo"><h1 class="gradient"><a href='{% url "index" %}'>Night Shift</a></h1></div>
+        
+    </header>
+    {% include 'gallery/nav.html' %}
+    <div class="container">
+        
+        {% if message %}
+        <div id="message">{{ message }}</div> 
+        
+        {% endif %}
+        {% block body %}
+        {% endblock %}
+    </div><!-- End container -->
+   {% include 'gallery/footer.html' %}
+    <script src="{% static 'gallery/script/script.js' %}"></script>
+</body>
+</html>
