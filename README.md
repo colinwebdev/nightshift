@@ -34,8 +34,9 @@ For complexity, every user has an avatar that is displayed along with every comm
 
 ## Additional Requirements to Run
 
-Pillow
-django-mardownify
+- Pillow
+- django-mardownify
+- In settings.py, uncomment the line for SECRET_KEY, and generate a key to use.
 
 ## How to Run
 
